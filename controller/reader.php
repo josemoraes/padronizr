@@ -19,6 +19,5 @@ if (!empty($_FILES['fileToUpload']['tmp_name'])) {
 }else{
   $message  = 'É necessário informar um arquivo CSV válido';
 }
-echo "Chegou aqui"; exit;
 
 UrlHelper::redirect('?message='.$message);
