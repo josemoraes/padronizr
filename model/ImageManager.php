@@ -14,11 +14,9 @@ class ImageManager{
   public function processImages(){
     for ($i=1; $i < count($this->_items); $i++) {
       foreach (explode('|',$this->_items[$i]['images']) as $position => $imageUrl) {
-        $this->zipFile(
-          $this->saveImage(
-            $this->downloadImages($imageUrl),
-            $this->getUrlToSaveImage($imageUrl, $this->_items[$i]['sku'], ($position+1))
-          )
+        $this->saveImage(
+          $this->downloadImages($imageUrl),
+          $this->getUrlToSaveImage($imageUrl, $this->_items[$i]['sku'], ($position+1))
         );
       }
     }
@@ -34,8 +32,8 @@ class ImageManager{
   }
 
   public function getUrlToSaveImage($imageUrl, $baseIdentifier, $sequenceNumber){
-      $extension        = explode('?',end(explode('.', $imageUrl)))[0];
-      return $this->_pathToSave.($baseIdentifier.'-'.$sequenceNumber.'.'.$extension);
+    $extension        = explode('?',end(explode('.', $imageUrl)))[0];
+    return $this->_pathToSave.($baseIdentifier.'-'.$sequenceNumber.'.'.$extension);
   }
 
   public function saveImage($imageData, $saveTo){
@@ -48,13 +46,21 @@ class ImageManager{
     return $saveTo;
   }
 
-  public function zipFile($pathToFile){
-    $zip = new ZipArchive;
-    if ($zip->open($this->_folder.'.zip', ZipArchive::OVERWRITE) === TRUE)
-    {
-        $zip->addFile($pathToFile);
-        $zip->close();
-    }
+  public function getFolderName(){ return end(explode('/', $this->_folder)); }
+
+  public function getFolderPath(){ return $this->_pathToSave; }
+
+  public function deleteFolder(){
+    $this->deleteImages();
+    rmdir($this->_pathToSave);
   }
 
+  public function deleteImages(){
+    $files = glob($this->_pathToSave . '/*');
+    foreach($files as $file){
+      if(is_file($file)){
+        unlink($file);
+      }
+    }
+  }
 }
