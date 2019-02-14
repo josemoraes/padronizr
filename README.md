@@ -1,4 +1,4 @@
-# Extrator
+# Padronizr
 
 Essa aplicação tem o objetivo de otimizar o processo de download e nomeação de arquivos de imagens, pois esse é um processo demorado quando se está realizando a importação de um catálogo de produtos por planilha. Logo, a ideia é nomear as imagens com base no identificador do produto (SKU).
 
